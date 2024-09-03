@@ -50,12 +50,16 @@ export class ProductsService {
       where: { id },
       data: {
         ...data,
-        characteristics: {
-          create: [...data.characteristics],
-        },
-        variants: {
-          create: [...data.variants],
-        },
+        characteristics: data.characteristics?.length
+          ? {
+              create: [...data.characteristics],
+            }
+          : undefined,
+        variants: data.variants?.length
+          ? {
+              create: [...data.variants],
+            }
+          : undefined,
       },
     });
   }

@@ -31,7 +31,7 @@ model Characteristic {
   name        String
   description String
 
-  Product   Product @relation(fields: [productId], references: [id])
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
   createdAt DateTime @default(now())
@@ -41,7 +41,7 @@ model Characteristic {
 model Variant {
   id        String   @id @default(cuid())
   color     String
-  Product   Product  @relation(fields: [productId], references: [id])
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
