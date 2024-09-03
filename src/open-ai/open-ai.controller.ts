@@ -8,6 +8,6 @@ export class OpenAiController {
 
   @Post('product-details')
   async chat(@Body() body: ChartGptDto) {
-    return await this.openAiService.chartGprRequest(body.product);
+    return await this.openAiService.productDetails(body.product);
   }
 }

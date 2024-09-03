@@ -1,4 +1,7 @@
-export const productDetails = (product: string, additionalFields?: string) => {
+export const productDetailsTemplate = (
+  product: string,
+  additionalFields?: string,
+) => {
   return `Generate a JSON object for an ${product} item based on the following schema { 
               "name": "string",
               "brand": "string",
