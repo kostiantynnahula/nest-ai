@@ -8,5 +8,5 @@ export class CharacteristicDto {
 
   @IsString()
   @MinLength(3)
-  value: string;
+  description: string;
 }

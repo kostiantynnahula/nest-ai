@@ -5,7 +5,7 @@ export const productDetails = (product: string, additionalFields?: string) => {
               "category": "string",
               "price": "number", // in USD
               "description": "string",
-              "characteristics": "Array<Record<string, string>>"
+              "characteristics": "Array<{name: string; description: string}>"
               "variants": [ { "color": "string" } ],
               ${additionalFields}
             }`;
