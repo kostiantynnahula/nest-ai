@@ -6,8 +6,8 @@ import { ChartGptDto } from './dto/chart-gpt-request.dto';
 export class OpenAiController {
   constructor(private readonly openAiService: OpenAiService) {}
 
-  @Post('chat')
+  @Post('product-details')
   async chat(@Body() body: ChartGptDto) {
-    return await this.openAiService.chartGprRequest(body.message);
+    return await this.openAiService.chartGprRequest(body.product);
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
+import { productDetails } from './helpers/templates/product.helper';
+import { parseProductDetailsResponse } from './helpers/parser/product.helper';
 
 @Injectable()
 export class OpenAiService {
@@ -12,29 +14,19 @@ export class OpenAiService {
     });
   }
 
-  async chartGprRequest(message: string) {
+  async chartGprRequest(product: string) {
     const completion = await this.client.chat.completions.create({
       model: 'gpt-4o-2024-08-06',
       messages: [
         { role: 'system', content: 'You are a helpful assistant.' },
         {
           role: 'user',
-          content: `Generate a JSON object for an ${message} item based on the following schema { 
-              "name": "string",
-              "brand": "string",
-              "category": "string",
-              "price": "number", // in USD
-              "description": "string",
-              "characteristics": "Array<Record<string, string>>"
-              "variants": [ { "color": "string" } ] 
-            }`,
+          content: productDetails(product),
         },
       ],
       response_format: { type: 'json_object' },
     });
 
-    // console.log(JSON.parse(completion.choices[0].message.content));
-
-    return completion;
+    return parseProductDetailsResponse(completion);
   }
 }

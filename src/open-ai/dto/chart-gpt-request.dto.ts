@@ -1,3 +1,7 @@
+import { IsDefined, IsString } from 'class-validator';
+
 export class ChartGptDto {
-  message: string;
+  @IsString()
+  @IsDefined()
+  product: string;
 }
