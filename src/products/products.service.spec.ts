@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './../prisma/prisma.module';
 import { OpenAiService } from './open-ai.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UnsplashService } from './unsplash.service';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -15,7 +16,7 @@ describe('ProductsService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
-      providers: [ProductsService, OpenAiService],
+      providers: [ProductsService, OpenAiService, UnsplashService],
     }).compile();
 
     service = module.get<ProductsService>(ProductsService);

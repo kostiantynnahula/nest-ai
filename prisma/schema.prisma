@@ -20,6 +20,7 @@ model Product {
   category        String
   description     String?
   price           Float
+  picture         String?
   characteristics Characteristic[]
   variants        Variant[]
   createdAt       DateTime         @default(now())

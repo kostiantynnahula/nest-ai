@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OpenAiService } from './open-ai.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UnsplashService } from './unsplash.service';
 
 describe('OpenAiService', () => {
   let service: OpenAiService;
@@ -8,7 +9,7 @@ describe('OpenAiService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot({ isGlobal: true })],
-      providers: [OpenAiService],
+      providers: [OpenAiService, ConfigService, UnsplashService],
     }).compile();
 
     service = module.get<OpenAiService>(OpenAiService);
@@ -24,6 +25,7 @@ describe('OpenAiService', () => {
     expect(response.name).toBeDefined();
     expect(response.name).toMatch('iPhone 15 Pro');
     expect(response.description).toBeDefined();
+    expect(response.picture).toBeDefined();
     expect(response.characteristics).toBeDefined();
     expect(response.characteristics.length).toBeGreaterThan(0);
     expect(response.characteristics[0].name).toBeDefined();

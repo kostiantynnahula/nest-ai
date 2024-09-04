@@ -38,6 +38,10 @@ export class CreateProductDto {
   price: number;
 
   @IsDefined()
+  @IsString()
+  picture: string;
+
+  @IsDefined()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CharacteristicDto)

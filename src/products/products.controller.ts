@@ -23,12 +23,12 @@ export class ProductsController {
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+    return await this.productsService.create(createProductDto);
   }
 
   @Get()
   async findAll() {
-    return this.productsService.findAll();
+    return await this.productsService.findAll();
   }
 
   @Get('generate')
@@ -36,12 +36,12 @@ export class ProductsController {
     if (!product) {
       throw new BadRequestException('Product name is required');
     }
-    return this.openAiService.productDetails(product);
+    return await this.openAiService.productDetails(product);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
+    return await this.productsService.findOne(id);
   }
 
   @Patch(':id')
@@ -49,11 +49,11 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return this.productsService.update(id, updateProductDto);
+    return await this.productsService.update(id, updateProductDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.productsService.remove(id);
+    return await this.productsService.remove(id);
   }
 }
