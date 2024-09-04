@@ -2,8 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from './products.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './../prisma/prisma.module';
-import { OpenAiService } from './../open-ai/open-ai.service';
-import { OpenAiModule } from './../open-ai/open-ai.module';
+import { OpenAiService } from './open-ai.service';
 import { CreateProductDto } from './dto/create-product.dto';
 
 describe('ProductsService', () => {
@@ -15,11 +14,7 @@ describe('ProductsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        PrismaModule,
-        OpenAiModule,
-      ],
+      imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
       providers: [ProductsService, OpenAiService],
     }).compile();
 

@@ -3,6 +3,7 @@ import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './../prisma/prisma.module';
+import { OpenAiService } from './open-ai.service';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
@@ -11,7 +12,7 @@ describe('ProductsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
       controllers: [ProductsController],
-      providers: [ProductsService],
+      providers: [ProductsService, OpenAiService],
     }).compile();
 
     controller = module.get<ProductsController>(ProductsController);
