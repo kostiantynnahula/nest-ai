@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from './../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -10,37 +11,20 @@ export class ProductsService {
     return await this.prisma.product.create({
       data: {
         ...data,
-        characteristics: {
-          create: [...data.characteristics],
-        },
-        variants: {
-          create: [...data.variants],
-        },
-      },
-      include: {
-        characteristics: true,
-        variants: true,
+        characteristics: data.characteristics as unknown as Prisma.JsonArray,
+        variants: data.variants as unknown as Prisma.JsonArray,
       },
     });
   }
 
   async findAll() {
-    return await this.prisma.product.findMany({
-      include: {
-        characteristics: true,
-        variants: true,
-      },
-    });
+    return await this.prisma.product.findMany();
   }
 
   async findOne(id: string) {
     return await this.prisma.product.findUnique({
       where: {
         id,
-      },
-      include: {
-        characteristics: true,
-        variants: true,
       },
     });
   }
@@ -50,16 +34,8 @@ export class ProductsService {
       where: { id },
       data: {
         ...data,
-        characteristics: data.characteristics?.length
-          ? {
-              create: [...data.characteristics],
-            }
-          : undefined,
-        variants: data.variants?.length
-          ? {
-              create: [...data.variants],
-            }
-          : undefined,
+        characteristics: data.characteristics as unknown as Prisma.JsonArray,
+        variants: data.variants as unknown as Prisma.JsonArray,
       },
     });
   }

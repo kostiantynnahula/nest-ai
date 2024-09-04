@@ -14,36 +14,15 @@ datasource db {
 }
 
 model Product {
-  id              String           @id @default(cuid())
+  id              String   @id @default(cuid())
   name            String
   brand           String
   category        String
   description     String?
   price           Float
   picture         String?
-  characteristics Characteristic[]
-  variants        Variant[]
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-}
-
-model Characteristic {
-  id          String @id @default(cuid())
-  name        String
-  description String
-
-  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Variant {
-  id        String   @id @default(cuid())
-  color     String
-  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  characteristics Json[]
+  variants        Json[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
