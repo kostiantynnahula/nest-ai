@@ -1,4 +1,4 @@
-FROM node:alpine As development
+FROM node:20.5.0-alpine As development
 
 WORKDIR /usr/src/app
 
@@ -24,7 +24,7 @@ RUN npx prisma migrate dev
 RUN npx prisma generate
 RUN npm run build
 
-FROM node:alpine as production
+FROM node:20.5.0-alpine as production
 
 ARG NODE_ENV=production
 
@@ -39,4 +39,4 @@ COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE 80
 
-CMD ["pnpm", "run", "start:prod", "dist/main"]
+CMD ["npm", "run", "start:prod", "dist/main"]
