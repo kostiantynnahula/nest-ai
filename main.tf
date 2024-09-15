@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "nest_ai_task" {
   [
     {
       "name": "nest-ai",
-      "image": "524147404421.dkr.ecr.eu-west-1.amazonaws.com/nest-ai:a511134-2024-09-09-09-14",
+      "image": "${var.container_image}",
       "cpu": 256,
       "memory": 512,
       "essential": true,
