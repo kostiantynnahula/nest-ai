@@ -5,11 +5,46 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "nest-ai-tfstate-bucket" // bucket name
+    key            = "terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "terraform_lock_state" // dynamodb table name
+    encrypt        = true
+  }
 }
 
 provider "aws" {
   region = "eu-west-1"
 }
+# resource "aws_s3_bucket" "terraform_state_bucket" {
+#   bucket = "nest-ai-tfstate-bucket"
+#   acl    = "private"
+
+#   versioning {
+#     enabled = true
+#   }
+
+#   tags = {
+#     Name = "nest-ai-tfstate-bucket"
+#   }
+# }
+
+# resource "aws_dynamodb_table" "terraform_lock_state" {
+#   name = "terraform_lock_state"
+
+#   billing_mode = "PAY_PER_REQUEST"
+
+#   attribute {
+#     name = "LockID"
+#     type = "S"
+#   }
+
+#   tags = {
+#     Name = "terraform_lock_state"
+#   }
+# }
 
 resource "aws_ecs_cluster" "nest_ai_cluster" {
   name = "nest-ai-cluster"
@@ -44,6 +79,10 @@ resource "aws_ecs_task_definition" "nest_ai_task" {
 resource "aws_iam_role" "ecsTaskExecutionRole" {
   name               = "ecsTasksExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+
+  lifecycle {
+    ignore_changes = [assume_role_policy]
+  }
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {
