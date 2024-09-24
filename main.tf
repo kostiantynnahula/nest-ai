@@ -18,33 +18,6 @@ terraform {
 provider "aws" {
   region = "eu-west-1"
 }
-# resource "aws_s3_bucket" "terraform_state_bucket" {
-#   bucket = "nest-ai-tfstate-bucket"
-#   acl    = "private"
-
-#   versioning {
-#     enabled = true
-#   }
-
-#   tags = {
-#     Name = "nest-ai-tfstate-bucket"
-#   }
-# }
-
-# resource "aws_dynamodb_table" "terraform_lock_state" {
-#   name = "terraform_lock_state"
-
-#   billing_mode = "PAY_PER_REQUEST"
-
-#   attribute {
-#     name = "LockID"
-#     type = "S"
-#   }
-
-#   tags = {
-#     Name = "terraform_lock_state"
-#   }
-# }
 
 resource "aws_ecs_cluster" "nest_ai_cluster" {
   name = "nest-ai-cluster"
@@ -62,8 +35,8 @@ resource "aws_ecs_task_definition" "nest_ai_task" {
       "essential": true,
       "portMappings": [
         {
-          "containerPort": 80,
-          "hostPort": 80
+          "containerPort": 3000,
+          "hostPort": 3000
         }
       ]
     }
@@ -140,7 +113,7 @@ resource "aws_security_group" "load_balancer_security_group" {
 
 resource "aws_lb_target_group" "target_group" {
   name        = "target-group"
-  port        = 80
+  port        = 3000
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = aws_default_vpc.default_vpc.id # default VPC
@@ -166,7 +139,7 @@ resource "aws_ecs_service" "app_service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn # Reference the target group
     container_name   = aws_ecs_task_definition.nest_ai_task.family
-    container_port   = 80 # Specify the container port
+    container_port   = 3000 # Specify the container port
   }
 
   network_configuration {
